@@ -11,10 +11,11 @@ import static org.springframework.http.HttpStatus.*;
 @AllArgsConstructor
 public enum ErrorCode {
 
-    FAILURE(BAD_REQUEST, "FAILURE");
+    LICENSE_OCR_FAILED(BAD_REQUEST, "운전면허증 텍스트 추출을 실패하였습니다."),
+    LICENSE_VALIDATION_FAILED(BAD_REQUEST, "운전면허증 텍스트 추출을 실패하였습니다.");
 
-    private final HttpStatus httpStatus;
-    private final String message;
 
+    public final HttpStatus httpStatus;
+    public final String message;
 
 }
