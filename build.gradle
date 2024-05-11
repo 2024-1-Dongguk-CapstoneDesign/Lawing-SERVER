@@ -30,6 +30,10 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 	//WebClient
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	//json
+	implementation group: 'org.json', name: 'json', version: '20231013'
+	//mac os 오류
+	implementation 'io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64'
 
 	runtimeOnly 'com.h2database:h2'
 	compileOnly 'org.projectlombok:lombok'
