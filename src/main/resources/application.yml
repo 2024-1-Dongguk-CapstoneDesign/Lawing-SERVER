@@ -4,7 +4,15 @@ spring:
   profiles:
     include:
       - dev
+      - codef
     active: dev
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 30MB
+  webflux:
+    max-buffer-size: 512KB
+
 springdoc:
   swagger-ui:
     path: /lawing/swagger
