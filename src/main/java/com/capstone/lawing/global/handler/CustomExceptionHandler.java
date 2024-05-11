@@ -1,6 +1,6 @@
 package com.capstone.lawing.global.handler;
 
-import com.capstone.lawing.global.dto.Response.ErrorResponseDTO;
+import com.capstone.lawing.global.dto.Response.ResponseDTO;
 import com.capstone.lawing.global.exception.CustomException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +14,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
 
     @ExceptionHandler(value = { CustomException.class })
-    protected ResponseEntity<ErrorResponseDTO> handleCustomException(CustomException e) {
+    protected ResponseEntity<ResponseDTO> handleCustomException(CustomException e) {
         log.error("handleCustomException throw CustomException : {}", e.getErrorCode());
-        return ErrorResponseDTO.toResponseEntity(e.getErrorCode());
+        return ResponseDTO.toResponseEntity(e.getErrorCode());
     }
 
 }
