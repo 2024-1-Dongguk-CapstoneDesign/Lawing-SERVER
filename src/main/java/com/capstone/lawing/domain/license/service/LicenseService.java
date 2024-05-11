@@ -80,7 +80,6 @@ public class LicenseService {
      * 이미지 파일 Base64 인코딩
      * @param multipartFile 운전 면허증 파일
      * @return 이미지 파일 Base64 인코딩 문자열
-     * @throws IOException
      */
     private String getBase64Image(MultipartFile multipartFile) throws IOException {
 
