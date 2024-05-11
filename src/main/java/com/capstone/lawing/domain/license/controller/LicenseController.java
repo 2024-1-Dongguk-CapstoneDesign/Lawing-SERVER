@@ -23,7 +23,6 @@ public class LicenseController {
     /**
      * 운전면허증 OCR
      * @return ResponseDTO
-     * @throws Exception
      */
     @Operation(summary = "운전면허증 OCR API", description = "사용자 운전면허증의 텍스트를 인식합니다.")
     @PostMapping(value = "/license")
