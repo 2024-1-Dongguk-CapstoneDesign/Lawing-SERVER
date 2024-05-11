@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: lawing
+  profiles:
+    include:
+      - dev
+    active: dev
+springdoc:
+  swagger-ui:
+    path: /lawing/swagger
+    groups-order: DESC
+    tags-sorter: alpha
+    operations-sorter: method
