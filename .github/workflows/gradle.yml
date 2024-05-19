@@ -30,17 +30,38 @@ jobs:
       - name: Build with Gradle Wrapper
         run: ./gradlew build
 
-      #3. Docker 이미지 빌드
+      #3. YML File Build
+      - name: Set jwt YML
+        run: |
+          touch ./src/main/resources/application-jwt.yml
+          echo "${{ secrets.APPLICATION_JWT_YML }}" | base64 --decode > src/main/resources/application-jwt.yml
+
+      - name: Set codef YML
+        run: |
+          touch ./src/main/resources/application-codef.yml
+          echo "${{ secrets.APPLICATION_CODEF_YML }}" | base64 --decode > src/main/resources/application-codef.yml
+
+      - name: Set real YML
+        run: |
+          touch ./src/main/resources/application-real.yml
+          echo "${{ secrets.APPLICATION_REAL_YML }}" | base64 --decode > src/main/resources/application-real.yml    
+
+      - name: Set dev YML
+        run: |
+          touch ./src/main/resources/application-dev.yml
+          echo "${{ secrets.APPLICATION_DEV_YML }}" | base64 --decode > src/main/resources/application-dev.yml    
+
+      #4. Docker 이미지 빌드
       - name: docker image buil
         run: docker build -t ${{ secrets.DOCKERHUB_USER_NAME }}/chaeniiiii/lawing
 
-      # 4. DockerHub 로그인
+      # 5. DockerHub 로그인
       - name: docker login
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USER_NAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      # 5. Docker Hub 이미지 푸시
+      # 6. Docker Hub 이미지 푸시
       - name: docker Hub push
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/chaeniiiii/lawing
