@@ -1,7 +1,9 @@
 package com.capstone.lawing.domain.memberToken.dto.response;
 
+import lombok.Data;
 import lombok.Getter;
 @Getter
+@Data
 public class ResponseMemberTokenDTO {
 
     private String accessToken;
