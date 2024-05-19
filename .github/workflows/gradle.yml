@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -23,11 +22,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # 2. Spring Boot Applications Build
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
-
-      #3. YML File Build
+      #2. YML File Build
       - name: Set jwt YML
         run: |
           touch ./src/main/resources/application-jwt.yml
@@ -47,6 +42,13 @@ jobs:
         run: |
           touch ./src/main/resources/application-dev.yml
           echo "${{ secrets.APPLICATION_DEV_YML }}" | base64 --decode > src/main/resources/application-dev.yml    
+
+      # 3. Spring Boot Applications Build
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+
+      - name:  Build with Gradle Wrapper
+        run : ./gradlew build
 
       #4. Docker 이미지 빌드
       - name: docker image build
