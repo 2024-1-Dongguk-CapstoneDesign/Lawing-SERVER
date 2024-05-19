@@ -52,11 +52,16 @@ jobs:
             exit 1
           fi
 
-      # 3. Spring Boot Applications Build
-
+      #3. DB 설정
       - name: Setup MySQL
         uses: mirromutth/mysql-action@v1.1
-                
+        with:
+          host port: 3306
+          container port: 3306
+          mysql database: 'lawingdb'
+          mysql root password: ${{ secrets.DATABASE_PASSWORD}}
+
+      # 4. Spring Boot Applications Build
       - name: permission for gradlew
         run: chmod +x ./gradlew
         shell: bash
@@ -64,21 +69,21 @@ jobs:
       - name : Build with Gradle Wrapper
         run : ./gradlew build --stacktrace --info
 
-      # 4. 빌드 결과 확인
+      # 5. 빌드 결과 확인
       - name: Verify build
         run: ls -l build/libs
 
-      #5. Docker 이미지 빌드
+      #6. Docker 이미지 빌드
       - name: docker image build
         run: docker build -t chaniiiii/lawing --platform linux/amd64 .
 
-      # 6. DockerHub 로그인
+      # 7. DockerHub 로그인
       - name: docker login
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USER_NAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      # 7. Docker Hub 이미지 푸시
+      # 8. Docker Hub 이미지 푸시
       - name: docker Hub push
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/chaeniiiii/lawing
