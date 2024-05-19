@@ -41,7 +41,7 @@ jobs:
         run: |
           touch ./src/main/resources/application-real.yml
           echo "${{ secrets.APPLICATION_REAL_YML}}" | base64 --decode > src/main/resources/application-real.yml
-          cat application-real.yml
+          cat src/main/resources/application-real.yml
 
       - name: Set dev YML
         run: |
