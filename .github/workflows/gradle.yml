@@ -31,7 +31,7 @@ jobs:
         shell: bash
 
       - name : Build with Gradle Wrapper
-        run : ./gradlew buildㅌ
+        run : ./gradlew build
 
       #3. YML File Build
       - name: Set jwt YML
