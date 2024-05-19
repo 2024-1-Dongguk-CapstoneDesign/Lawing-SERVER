@@ -63,7 +63,7 @@ jobs:
 
       # 4. Spring Boot Applications Build
       - name : Build with Gradle Wrapper
-        run : ./gradlew build --stacktrace --error
+        run : ./gradlew build --stacktrace
 
       # 5. 빌드 결과 확인
       - name: Verify build
