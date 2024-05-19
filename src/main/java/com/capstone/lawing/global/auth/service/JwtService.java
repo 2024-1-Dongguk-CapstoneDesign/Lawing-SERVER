@@ -1,4 +1,4 @@
-가package com.capstone.lawing.global.auth.service;
+package com.capstone.lawing.global.auth.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
