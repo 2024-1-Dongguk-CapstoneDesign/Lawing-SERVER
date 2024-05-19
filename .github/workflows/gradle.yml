@@ -36,30 +36,30 @@ jobs:
           touch ./src/main/resources/application-codef.yml
           echo "${{secrets.APPLICATION_CODEF_YML}}" | base64 --decode > src/main/resources/application-codef.yml
 
-      - name: Set real YML
+      - name: Set dev YML
         run: |
           touch ./src/main/resources/application-real.yml
-          echo "${{secrets.APPLICATION_REAL_YML}}" | base64 --decode > src/main/resources/application-real.yml
+          echo "${{secrets.APPLICATION_DEV_YML}}" | base64 --decode > src/main/resources/application-dev.yml
 
       - name: Check if YML files exist
         run: |
           if [ -f ./src/main/resources/application-jwt.yml ] && \
              [ -f ./src/main/resources/application-codef.yml ] && \
-             [ -f ./src/main/resources/application-real.yml ]; then
+             [ -f ./src/main/resources/application-dev.yml ]; then
             echo "YML files exist."
           else
             echo "One or more YML files are missing."
             exit 1
           fi
 
-      #3. DB 설정
-      - name: Setup MySQL
-        uses: mirromutth/mysql-action@v1.1
-        with:
-          host port: 3306
-          container port: 3306
-          mysql database: 'lawingdb'
-          mysql root password: ${{ secrets.DATABASE_PASSWORD}}
+#      #3. DB 설정
+#      - name: Setup MySQL
+#        uses: mirromutth/mysql-action@v1.1
+#        with:
+#          host port: 3306
+#          container port: 3306
+#          mysql database: 'lawingdb'
+#          mysql root password: ${{ secrets.DATABASE_PASSWORD}}
 
       # 4. Spring Boot Applications Build
       - name : Build with Gradle Wrapper
