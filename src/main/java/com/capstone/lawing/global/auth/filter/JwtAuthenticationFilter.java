@@ -28,10 +28,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String LOGIN_URL = "/member/social/login";
     private static final String SWAGGER_UI_URL = "/lawing/swagger";
     private static final String CODEF_TOKEN_URL = "/license/token";
-    private static final String TOKEN_REISSUE_URL = "/api/membertoken/reissue";
+    private static final String TOKEN_REISSUE_URL = "/memberToken/reissue";
 
     private final JwtService jwtService;
-    private final MemberTokenRepository memberTokenRepository;
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException{

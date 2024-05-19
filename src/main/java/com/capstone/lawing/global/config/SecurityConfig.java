@@ -1,6 +1,5 @@
 package com.capstone.lawing.global.config;
 
-import com.capstone.lawing.domain.memberToken.Repository.MemberTokenRepository;
 import com.capstone.lawing.global.auth.filter.ExceptionHandlerFilter;
 import com.capstone.lawing.global.auth.filter.JwtAuthenticationFilter;
 import com.capstone.lawing.global.auth.service.JwtService;
@@ -21,7 +20,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtService jwtService;
-    private final MemberTokenRepository memberTokenRepository;
 
     @Bean
     public WebSecurityCustomizer configure() {
@@ -32,30 +30,28 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws  Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-                .formLogin(AbstractHttpConfigurer::disable)
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
+            .formLogin(AbstractHttpConfigurer::disable)
+            .httpBasic(AbstractHttpConfigurer::disable)
+            .csrf(AbstractHttpConfigurer::disable)
+            .cors(AbstractHttpConfigurer::disable)
 
-                .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/member/social/login","/lawing/swagger" ,"/license/token").permitAll()
-                        .anyRequest().authenticated())
+            .authorizeHttpRequests((authorize) -> authorize
+                    .requestMatchers("/member/social/login", "/lawing/swagger", "/license/token", "/memberToken/reissue").permitAll()
+                    .anyRequest().authenticated())
 
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        // JWT 토큰 예외 처리
+            .sessionManagement(session -> session
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                .addFilterBefore(new JwtAuthenticationFilter(jwtService, memberTokenRepository), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new ExceptionHandlerFilter(), JwtAuthenticationFilter.class);
-            return http.build();
+            // JWT 토큰 예외 처리
+            .addFilterBefore(new JwtAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new ExceptionHandlerFilter(), JwtAuthenticationFilter.class);
+
+        return http.build();
 
     }
-
-
-
 
 
 }
