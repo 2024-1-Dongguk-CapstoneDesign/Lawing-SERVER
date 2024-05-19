@@ -62,12 +62,8 @@ jobs:
           mysql root password: ${{ secrets.DATABASE_PASSWORD}}
 
       # 4. Spring Boot Applications Build
-      - name: permission for gradlew
-        run: chmod +x ./gradlew
-        shell: bash
-
-#      - name : Build with Gradle Wrapper
-#        run : ./gradlew build --stacktrace --info
+      - name : Build with Gradle Wrapper
+        run : ./gradlew build --stacktrace --ERROR
 
       # 5. 빌드 결과 확인
       - name: Verify build
