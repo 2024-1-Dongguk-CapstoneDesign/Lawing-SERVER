@@ -50,7 +50,7 @@ jobs:
 
       #4. Docker 이미지 빌드
       - name: docker image buil
-        run: docker build -t ${{ secrets.DOCKERHUB_USER_NAME }}/chaeniiiii/lawing
+        run: docker build -t /chaeniiiii/lawing --platform linux/amd64 .
 
       # 5. DockerHub 로그인
       - name: docker login
