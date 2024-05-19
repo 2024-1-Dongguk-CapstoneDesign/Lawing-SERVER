@@ -54,7 +54,10 @@ jobs:
 
       # 3. Spring Boot Applications Build
 
-      - name: permission for gradlew
+      - name: Setup MySQL
+        uses: mirromutth/mysql-action@v1.1
+                
+                - name: permission for gradlew
         run: chmod +x ./gradlew
         shell: bash
 
