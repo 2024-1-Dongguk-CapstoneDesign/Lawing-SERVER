@@ -49,8 +49,8 @@ jobs:
           echo "${{ secrets.APPLICATION_DEV_YML }}" | base64 --decode > src/main/resources/application-dev.yml    
 
       #4. Docker 이미지 빌드
-      - name: docker image buil
-        run: docker build -t /chaeniiiii/lawing --platform linux/amd64 .
+      - name: docker image build
+        run: docker build -t chaniiiii/lawing --platform linux/amd64 .
 
       # 5. DockerHub 로그인
       - name: docker login
