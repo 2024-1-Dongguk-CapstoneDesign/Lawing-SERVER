@@ -22,6 +22,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: permission for gradlew
+        run: chmod +x ./gradlew
+        shell: bash
+
       #2. YML File Build
       - name: Set jwt YML
         run: |
