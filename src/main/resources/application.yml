@@ -3,7 +3,7 @@ spring:
     name: lawing
   profiles:
     include:
-      - dev
+      - jwt
       - codef
     active: dev
   servlet:
