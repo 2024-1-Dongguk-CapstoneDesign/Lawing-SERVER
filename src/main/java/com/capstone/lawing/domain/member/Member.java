@@ -1,7 +1,7 @@
 package com.capstone.lawing.domain.member;
 
+import com.capstone.lawing.domain.BaseTimeEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -9,21 +9,24 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 @Builder
 @AllArgsConstructor
-public class Member {
+public class Member extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "memberId")
+    @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "name")
-    @NotNull
+    @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "email", nullable = false)
+    private String email;
+
     @Column(name = "birth", nullable = false)
-    @NotNull
     private String birth;
 
+    @Column(name = "gender", nullable = false)
+    private String gender;
 }
 
 
