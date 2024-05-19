@@ -57,7 +57,7 @@ jobs:
       - name: Setup MySQL
         uses: mirromutth/mysql-action@v1.1
                 
-                - name: permission for gradlew
+      - name: permission for gradlew
         run: chmod +x ./gradlew
         shell: bash
 
