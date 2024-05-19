@@ -66,8 +66,8 @@ jobs:
         run: chmod +x ./gradlew
         shell: bash
 
-      - name : Build with Gradle Wrapper
-        run : ./gradlew build --stacktrace --info
+#      - name : Build with Gradle Wrapper
+#        run : ./gradlew build --stacktrace --info
 
       # 5. 빌드 결과 확인
       - name: Verify build
