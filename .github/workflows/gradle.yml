@@ -22,6 +22,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+
       #2. YML File Build
       - name: Set jwt YML
         run: |
@@ -50,8 +53,6 @@ jobs:
           fi
 
       # 3. Spring Boot Applications Build
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
 
       - name: permission for gradlew
         run: chmod +x ./gradlew
