@@ -38,17 +38,17 @@ jobs:
           echo "${{secrets.APPLICATION_CODEF_YML}}" | base64 --decode > src/main/resources/application-codef.yml
         shell: bash
 
-      - name: Set real YML
+      - name: Set dev YML
         run: |
-          touch ./src/main/resources/application-real.yml
-          echo "${{secrets.APPLICATION_REAL_YML}}" | base64 --decode > src/main/resources/application-real.yml
+          touch ./src/main/resources/application-dev.yml
+          echo "${{secrets.APPLICATION_DEV_YML}}" | base64 --decode > src/main/resources/application-dev.yml
         shell: bash
 
       - name: Check if YML files exist
         run: |
           if [ -f ./src/main/resources/application-jwt.yml ] && \
              [ -f ./src/main/resources/application-codef.yml ] && \
-             [ -f ./src/main/resources/application-real.yml ]; then
+             [ -f ./src/main/resources/application-dev.yml ]; then
             echo "YML files exist."
           else
             echo "One or more YML files are missing."
