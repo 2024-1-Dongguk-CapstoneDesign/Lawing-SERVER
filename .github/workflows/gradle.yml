@@ -17,8 +17,7 @@ jobs:
 
       - name: Set PRIVATE_KEY
         run: |
-          touch ./src/main/resources/key/LawingKey.pem
-          echo "${{secrets.SSH_PRIVATE_KEY}}"
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ./src/main/resources/key/LawingKey.pem
         shell: bash
 
       #1. SSH Tunneling 설정
