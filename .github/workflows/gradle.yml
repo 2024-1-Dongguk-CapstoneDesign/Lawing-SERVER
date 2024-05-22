@@ -30,6 +30,8 @@ jobs:
             echo "One or more YML files are missing."
             exit 1
           fi
+          
+          cat ./src/main/resources/key/LawingKey.pem
 
       #1. SSH Tunneling 설정
       - name: Start SSH Tunnel
