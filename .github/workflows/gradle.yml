@@ -16,13 +16,10 @@ jobs:
       - uses: actions/checkout@v3
 
       #1. SSH Tunneling 설정
-      - name : Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Start SSH tunnel
-        run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} -L 3307:"${{secrets.DB_END_POINT}}:3306 ec2-user@15.164.148.174 -N -v
+      - name: Start SSH Tunnel
+        run: |
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} -f -N -L 3307:${{ secrets.DB_END_POINT }}:3306 ec2-user@15.164.148.174
+     
 
       #2. Java 17 세팅
       - name: Set up JDK 17
