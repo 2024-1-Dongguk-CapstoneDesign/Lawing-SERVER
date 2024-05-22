@@ -22,6 +22,14 @@ jobs:
           chmod 600 ./src/main/resources/key/LawingKey.pem
         shell: bash
 
+      - name: Check if key exist
+        run: |
+          if [ -f ./src/main/resources/key/LawingKey.pem ] ;then
+            echo "key exist."
+          else
+            echo "One or more YML files are missing."
+            exit 1
+          fi
 
       #1. SSH Tunneling 설정
       - name: Start SSH Tunnel
