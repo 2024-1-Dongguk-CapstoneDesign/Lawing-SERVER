@@ -42,11 +42,6 @@ jobs:
           sleep 10  # Wait for the tunnel to be established
         shell: bash
 
-      - name: Check SSH Tunnel Logs
-        run: |
-          cat nohup.out
-        shell: bash
-
       #2. Java 17 세팅
       - name: Set up JDK 17
         uses: actions/setup-java@v3
