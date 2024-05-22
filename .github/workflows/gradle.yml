@@ -15,18 +15,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set PRIVATE_KEY
-        run: |
-          mkdir -p ./src/main/resources/key
-          touch ./src/main/resources/key/LawingKey.pem
-          echo "${{secrets.SSH_PRIVATE_KEY}}" > ./src/main/resources/key/LawingKey.pem
-          chmod 600 ./src/main/resources/key/LawingKey.pem
-        shell: bash
-
       #1. SSH Tunneling 설정
       - name: Start SSH Tunnel
         run: |
-          ssh -i src/main/resources/key/LawingKey.pem -L 3307:"${{secrets.DB_END_POINT}}":3306 ec2-user@15.164.148.174
+          ssh -i "${{secrets.SSH_PRIVATE_KEY}}" -L 3307:"${{secrets.DB_END_POINT}}":3306 ec2-user@15.164.148.174
 
       #2. Java 17 세팅
       - name: Set up JDK 17
