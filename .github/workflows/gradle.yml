@@ -32,6 +32,7 @@ jobs:
 
       - name: Add SSH Host Key
         run: |
+          mkdir -p ~/.ssh
           ssh-keyscan 15.164.148.174 >> ~/.ssh/known_hosts
         shell: bash
 
