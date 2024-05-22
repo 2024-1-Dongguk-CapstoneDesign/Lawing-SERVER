@@ -25,7 +25,12 @@ jobs:
       #1. SSH Tunneling 설정
       - name: Start SSH Tunnel
         run: |
-          nohup ssh -i ./src/main/resources/key/LawingKey.pem -L 3307:lawingdb.com5bfft1iab.ap-northeast-2.rds.amazonaws.com:3306 ec2-user@15.164.148.174 -N & sleep 10
+          nohup ssh -i ./src/main/resources/key/LawingKey.pem -L 3307:"${{secrets.DB_END_POINT}}":3306 ec2-user@15.164.148.174 -N sleep 10
+        shell: bash
+
+      - name: Verify Tunnel
+        run: |
+          netstat -an | grep 3307
         shell: bash
 
       #2. Java 17 세팅
