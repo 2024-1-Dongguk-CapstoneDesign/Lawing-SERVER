@@ -21,7 +21,6 @@ jobs:
           touch ./src/main/resources/key/LawingKey.pem
           echo "${{secrets.SSH_PRIVATE_KEY}}" > ./src/main/resources/key/LawingKey.pem
           chmod 600 ./src/main/resources/key/LawingKey.pem
-          cat ./src/main/resources/key/LawingKey.pem
         shell: bash
 
       #1. SSH Tunneling 설정
