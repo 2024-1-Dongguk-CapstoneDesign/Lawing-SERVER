@@ -94,7 +94,7 @@ jobs:
 
       #6. Docker 이미지 빌드
       - name: docker image build
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/chaniiiii/lawing --platform linux/amd64 .
+        run: docker build -t chaeniiiii/lawing:latest --platform linux/amd64 .
 
       # 7. DockerHub 로그인
       - name: docker login
@@ -105,4 +105,4 @@ jobs:
 
       # 8. Docker Hub 이미지 푸시
       - name: docker Hub push
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/chaeniiiii/lawing
+        run: docker push chaeniiiii/lawing:latest
