@@ -29,11 +29,6 @@ jobs:
           sleep 10  # Wait for the tunnel to be established
         shell: bash
 
-      - name: Verify Tunnel
-        run: |
-          netstat -an | grep 3307
-        shell: bash
-
       #2. Java 17 세팅
       - name: Set up JDK 17
         uses: actions/setup-java@v3
