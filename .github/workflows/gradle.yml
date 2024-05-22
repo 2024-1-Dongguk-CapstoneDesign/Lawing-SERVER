@@ -26,8 +26,7 @@ jobs:
       #1. SSH Tunneling 설정
       - name: Start SSH Tunnel
         run: |
-          ssh -i src/main/resources/key/LawingKey.pem -o StrictHostKeyChecking=no -L 3307:lawingdb.com5bfft1iab.ap-northeast-2.rds.amazonaws.com:3306 ec2-user@15.164.148.174
-      #ssh -i src/main/resources/key/LawingKey.pem -L 3307:lawingdb.com5bfft1iab.ap-northeast-2.rds.amazonaws.com:3306 ec2-user@15.164.148.174
+          ssh -i src/main/resources/key/LawingKey.pem -L 3307:lawingdb.com5bfft1iab.ap-northeast-2.rds.amazonaws.com:3306 ec2-user@15.164.148.174
      
 
       #2. Java 17 세팅
