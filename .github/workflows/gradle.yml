@@ -20,6 +20,7 @@ jobs:
           mkdir ./src/main/resources/key
           touch ./src/main/resources/key/LawingKey.pem
           echo "${{secrets.SSH_PRIVATE_KEY}}"
+          chmod 600 src/main/resources/key/LawingKey.pem
         shell: bash
 
       #1. SSH Tunneling 설정
