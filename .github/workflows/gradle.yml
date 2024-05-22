@@ -15,6 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      #1. SSH Tunneling 설정
       - name: Set PRIVATE_KEY
         run: |
           mkdir -p ./src/main/resources/key
@@ -22,7 +23,18 @@ jobs:
           chmod 600 ./src/main/resources/key/LawingKey.pem
         shell: bash
 
-      #1. SSH Tunneling 설정
+      - name: Set PRIVATE_KEY
+        run: |
+          mkdir -p ./src/main/resources/key
+          echo "${{secrets.SSH_PRIVATE_KEY}}" | base64 --decode > ./src/main/resources/key/LawingKey.pem
+          chmod 600 ./src/main/resources/key/LawingKey.pem
+        shell: bash
+
+      - name: Add SSH Host Key
+        run: |
+          ssh-keyscan 15.164.148.174 >> ~/.ssh/known_hosts
+        shell: bash
+
       - name: Start SSH Tunnel
         run: |
           nohup ssh -v -i ./src/main/resources/key/LawingKey.pem -L 3307:"${{secrets.DB_END_POINT}}":3306 ec2-user@15.164.148.174 -N &
