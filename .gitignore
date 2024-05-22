@@ -6,6 +6,7 @@ build/
 !**/src/test/**/build/
 
 ##application.yml을 제외한 모든 yml ignore
+*.pem
 *.yml
 
 ### STS ###
