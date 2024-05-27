@@ -86,7 +86,7 @@ jobs:
       - name: Build with Gradle
         run: |
           chmod +x gradlew 
-          ./gradlew build --stacktrace --inf 
+          ./gradlew build --stacktrace --info
 
       # 1-5. 빌드 결과 확인
       - name: Verify build
