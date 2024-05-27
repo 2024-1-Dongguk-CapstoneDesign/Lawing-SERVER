@@ -1,6 +1,5 @@
 package com.capstone.lawing.global.auth.filter;
 
-import com.capstone.lawing.domain.memberToken.Repository.MemberTokenRepository;
 import com.capstone.lawing.domain.memberToken.TokenStatus;
 import com.capstone.lawing.global.auth.service.JwtService;
 import com.capstone.lawing.global.dto.Response.ResponseDTO;

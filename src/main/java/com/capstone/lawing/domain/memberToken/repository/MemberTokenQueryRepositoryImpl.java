@@ -1,4 +1,4 @@
-package com.capstone.lawing.domain.memberToken.Repository;
+package com.capstone.lawing.domain.memberToken.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
