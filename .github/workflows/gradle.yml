@@ -118,8 +118,13 @@ jobs:
         run : sudo docker pull chaeniiiii/lawing:latest
 
       # 2-2. 기존 컨테이너를 중지
-      - name : docker stop container
-        run : sudo docker stop $(sudo docker ps -q) 2>/dev/null || true
+      - name: docker stop and remove container
+        run: |
+          CONTAINER_ID=$(sudo docker ps -q --filter name=github-actions-demo)
+          if [ -n "$CONTAINER_ID" ]; then
+            sudo docker stop github-actions-demo
+            sudo docker rm github-actions-demo
+          fi
 
       # 2-3. 최신 이미지를 컨테이너화하여 실행
       - name : docker run new container
