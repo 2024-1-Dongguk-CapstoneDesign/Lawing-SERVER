@@ -126,10 +126,17 @@ jobs:
             sudo docker rm github-actions-demo
           fi
 
-      # 2-3. 최신 이미지를 컨테이너화하여 실행
+      # 2-3. 컨테이너에서 파일 존재 여부 확인 및 삭제
+      - name: check and remove existing run.sh
+        run: |
+          if [ -f /home/ec2-user/actions-runner/run.sh ]; then
+            sudo rm /home/ec2-user/actions-runner/run.sh
+          fi
+
+      # 2-4. 최신 이미지를 컨테이너화하여 실행
       - name : docker run new container
         run : sudo docker run --name github-actions-demo --rm -d -p 8080:8080 chaeniiiii/lawing:latest
 
-      #2-4. 미사용 이미지 정리
+      #2-5. 미사용 이미지 정리
       - name : delete old docker image
         run : sudo docker system prune -f
