@@ -13,8 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      #- uses: actions/checkout@v3
-  #1. CI 설계
+      - uses: actions/checkout@v3
+
+      #1. CI 설계
       #1-1. SSH Tunneling 설정
       - name: Set PRIVATE_KEY
         run: |
