@@ -113,25 +113,14 @@ jobs:
     needs : build-docker-image
     runs-on : self-hosted
     steps :
-      # 2-1. 필요시 파일 삭제
-      - name: Check and remove existing run.sh
-        run: |
-          if [ -f /home/ec2-user/actions-runner/run.sh ]; then
-            sudo rm /home/ec2-user/actions-runner/run.sh
-          fi
 
-      # 2-2. 최신 이미지 pull
+      # 2-1. 최신 이미지 pull
       - name: docker pull
         run: sudo docker pull chaeniiiii/lawing:latest
 
-      # 2-3. 기존 컨테이너를 중지 및 삭제
+      # 2-2. 기존 컨테이너를 중지 및 삭제
       - name: docker stop and remove container
-        run: |
-          CONTAINER_ID=$(sudo docker ps -q --filter name=github-actions-demo)
-          if [ -n "$CONTAINER_ID" ]; then
-            sudo docker stop github-actions-demo
-            sudo docker rm github-actions-demo
-          fi
+        run: sudo docker stop $(sudo docker ps -q) 2>/dev/null || true
 
       # 2-4. 최신 이미지를 컨테이너화하여 실행
       - name: docker run new container
