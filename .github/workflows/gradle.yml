@@ -17,12 +17,6 @@ jobs:
 
       #1. CI 설계
       #1-1. SSH Tunneling 설정
-#      - name: Set PRIVATE_KEY
-#        run: |
-#          mkdir -p ./src/main/resources/key
-#          echo "${{secrets.SSH_PRIVATE_KEY}}" | base64 --decode > ./src/main/resources/key/LawingKey.pem
-#          chmod 600 ./src/main/resources/key/LawingKey.pem
-#        shell: bash
 #
 #      - name: Set PRIVATE_KEY
 #        run: |
