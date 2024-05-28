@@ -89,7 +89,7 @@ jobs:
 
       # 1-6. Docker 이미지 빌드
       - name: docker image build
-        run: docker build -t chaeniiiii/lawing:latest --platform linux/amd64 .
+        run: docker build -t chaeniiiii/lawing --platform linux/amd64 .
 
       # 1-7. DockerHub 로그인
       - name: docker login
@@ -100,7 +100,7 @@ jobs:
 
       # 1-8. Docker Hub 이미지 푸시
       - name: docker Hub push
-        run: docker push chaeniiiii/lawing:latest
+        run: docker push chaeniiiii/lawing
 
   #2. 위 과정에서 푸시한 이미지를 ec2에서 pull 받아서 실행시키는 과정
   run-docker-image-on-ec2 :
@@ -110,7 +110,7 @@ jobs:
 
       # 2-1. 최신 이미지 pull
       - name: docker pull
-        run: sudo docker pull chaeniiiii/lawing:latest
+        run: sudo docker pull chaeniiiii/lawing
 
       # 2-2. 기존 컨테이너를 중지 및 삭제
       - name: docker stop and remove container
@@ -118,7 +118,7 @@ jobs:
 
       # 2-4. 최신 이미지를 컨테이너화하여 실행
       - name: docker run new container
-        run: sudo docker run --name github-actions-demo --rm -d -p 8080:8080 chaeniiiii/lawing:latest
+        run: sudo docker run --name github-actions-demo --rm -d -p 8080:8080 chaeniiiii/lawing
 
       # 2-5. 미사용 이미지 정리
       - name: delete old docker image
