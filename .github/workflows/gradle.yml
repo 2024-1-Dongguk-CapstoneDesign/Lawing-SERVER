@@ -117,7 +117,7 @@ jobs:
 
       # 2-1. 최신 이미지 pull
       - name : docker pull
-        run : sudo docker pull chae₩niiiii/lawing:latest
+        run : sudo docker pull chaeniiiii/lawing:latest
 
       # 2-2. 기존 컨테이너를 중지
       - name : docker stop container
