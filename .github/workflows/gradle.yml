@@ -109,24 +109,25 @@ jobs:
       - name: docker Hub push
         run: docker push chaeniiiii/lawing:latest
 
-  #2. 위 과정에서 푸시한 이미지를 ec2에서 pull 받아서 실행시키는 과정
-  run-docker-image-on-ec2 :
-    needs : build-docker-image
-    runs-on : self-hosted
-    steps :
+    #2. 위 과정에서 푸시한 이미지를 ec2에서 pull 받아서 실행시키는 과정
+    run-docker-image-on-ec2 :
+      needs : build-docker-image
+      runs- on : self-hosted
 
-      # 2-1. 최신 이미지 pull
-      - name : docker pull
-        run : sudo docker pull chaeniiiii/lawing:latest
+      steps :
 
-      # 2-2. 기존 컨테이너를 중지
-      - name : docker stop container
-        run : sudo docker stop $(sudo docker ps -q) 2>/dev/null || true
+        # 2-1. 최신 이미지 pull
+        - name : docker pull
+          run : sudo docker pull chaeniiiii/lawing:latest
 
-      # 2-3. 최신 이미지를 컨테이너화하여 실행
-      - name : docker run new container
-        run : sudo docker run --name github-actions-demo --rm -d -p 8080:8080 chaeniiiii/lawing:latest
+        # 2-2. 기존 컨테이너를 중지
+        - name : docker stop container
+          run : sudo docker stop $(sudo docker ps -q) 2>/dev/null || true
 
-      #2-4. 미사용 이미지 정리
-      - name : delete old docker image
-        run : sudo docker system prune -f
+        # 2-3. 최신 이미지를 컨테이너화하여 실행
+        - name : docker run new container
+          run : sudo docker run --name github-actions-demo --rm -d -p 8080:8080 chaeniiiii/lawing:latest
+
+        #2-4. 미사용 이미지 정리
+        - name : delete old docker image
+          run : sudo docker system prune -f
