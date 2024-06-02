@@ -19,7 +19,7 @@ jobs:
       - name: Set PRIVATE_KEY
         run: |
           mkdir -p ./src/main/resources/key
-          echo "${{secrets.SSH_PRIVATE_KEY}}" 
+          echo "${{secrets.SSH_PRIVATE_KEY}}"
           chmod 600 ./src/main/resources/key/LawingKey.pem
         shell: bash
 
