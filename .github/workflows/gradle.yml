@@ -51,7 +51,7 @@ jobs:
             character set server: 'utf8'
             mysql database: 'lawingdatabase'
             mysql user: 'chaen'
-            mysql password: ${{ secrets.DATABASE_PASSWORD }}
+            mysql password: ${{secrets.DATABASE_PASSWORD}}
 
       # 1-3. Spring Boot Applications Build
       - name: Build with Gradle
