@@ -51,19 +51,16 @@ jobs:
         run: |
           touch ./src/main/resources/application-jwt.yml
           echo "${{secrets.APPLICATION_JWT_YML}}" | base64 --decode > src/main/resources/application-jwt.yml
-        shell: bash
 
       - name: Set codef YML
         run: |
           touch ./src/main/resources/application-codef.yml
           echo "${{secrets.APPLICATION_CODEF_YML}}" | base64 --decode > src/main/resources/application-codef.yml
-        shell: bash
 
       - name: Set real YML
         run: |
           touch ./src/main/resources/application-real.yml
           echo "${{secrets.APPLICATION_REAL_YML}}" | base64 --decode > src/main/resources/application-real.yml
-        shell: bash
 
       - name: Setup MySQL
         uses: samin/mysql-action@v1
