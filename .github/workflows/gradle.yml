@@ -81,4 +81,5 @@ jobs:
             sudo docker pull chaeniiiii/lawing
             sudo docker pull chaeniiiii/lawing-nginx
             docker-compose up -d
+            sudo docker run -d -p 8080:8080 chaeniiiii/lawing
             docker image prune -f
