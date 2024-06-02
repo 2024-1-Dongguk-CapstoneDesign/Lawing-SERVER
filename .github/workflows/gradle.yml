@@ -80,7 +80,7 @@ jobs:
 
       # 1-4. Spring Boot Applications Build
       - name: Build with Gradle
-        run: ./gradlew build --stacktrace --info
+        run: ./gradlew build test
 
       # 1-5. 빌드 결과 확인
       - name: Verify build
