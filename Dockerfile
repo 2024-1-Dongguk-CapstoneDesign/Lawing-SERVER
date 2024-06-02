@@ -13,5 +13,11 @@ COPY src/main/resources/application-real.yml .
 COPY src/main/resources/application-jwt.yml .
 COPY src/main/resources/application-codef.yml .
 
+# Set environment variables
+ENV SPRING_PROFILES_ACTIVE=real,jwt,codef
+
+# Expose the port your application runs on
+EXPOSE 8080
+
 # 실행 명령어
-ENTRYPOINT ["java", "-jar","-Duser.timezone=Asia/Seoul","-Dspring.profiles.active=real", "/app.jar"]
+ENTRYPOINT ["java", "-jar","-Duser.timezone=Asia/Seoul", "/app.jar"]
