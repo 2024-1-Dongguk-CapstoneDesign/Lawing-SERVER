@@ -93,3 +93,8 @@ sourceSets {
 clean {
 	delete file(generated)
 }
+
+//SNAPSHOT 생성 x
+jar {
+	enabled = false
+}

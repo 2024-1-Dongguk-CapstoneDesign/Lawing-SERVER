@@ -13,6 +13,7 @@ public enum ErrorCode {
 
     //면허증
     LICENSE_OCR_FAILED(BAD_REQUEST, "운전면허증 텍스트 추출을 실패하였습니다."),
+    DRIVERS_LICENSE_EXISTS(BAD_REQUEST, "이미 등록된 운전면허증입니다."),
     LICENSE_VALIDATION_FAILED(BAD_REQUEST, "유효하지 않는 운전면허증입니다."),
     LICENSE_MEMBER_INFO_NOT_CORRECT(BAD_REQUEST,"로그인 회원 정보와 면허증 회원 정보가 일치하지 않습니다. "),
     WRONG_LICENSE_GENDER(BAD_REQUEST,"잘못된 성별 정보입니다."),

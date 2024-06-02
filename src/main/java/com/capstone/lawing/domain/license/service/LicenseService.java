@@ -1,5 +1,6 @@
 package com.capstone.lawing.domain.license.service;
 
+import com.capstone.lawing.domain.license.License;
 import com.capstone.lawing.domain.license.dto.LicenseValidDTO;
 import com.capstone.lawing.domain.license.dto.request.RequestLicenseInfoDTO;
 import com.capstone.lawing.domain.license.dto.response.CodefTokenResponseDto;
@@ -118,6 +119,8 @@ public class LicenseService {
         JSONObject dataObj = jsonObj.getJSONObject("data");
 
         String licenseNo = dataObj.get("resLicenseNo").toString();
+
+        licenseRepository.findByLicenseNumber(licenseNo).ifPresent(license -> {throw new CustomException(ErrorCode.DRIVERS_LICENSE_EXISTS);});
 
         String birth = dataObj.getString("resUserIdentity").substring(0, 6);
         String name = dataObj.getString("resUserName");
