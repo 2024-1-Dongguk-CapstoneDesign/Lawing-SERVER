@@ -13,13 +13,6 @@ jobs:
       contents: read
 
     steps:
-      - uses: mirromutth/mysql-action@v1.1
-        with:
-            host port: 3306
-            container port: 3306
-            mysql database: 'lawingdatabase'
-            mysql root password: ${{ secrets.DATABASE_PASSWORD }}
-
       - uses: actions/checkout@v3
 
       #1-1. Java 17 세팅
@@ -46,15 +39,15 @@ jobs:
           echo "${{secrets.APPLICATION_CODEF_YML}}" | base64 --decode > src/main/resources/application-codef.yml
         shell: bash
 
+      # 1-3. Spring Boot Applications Build
+      - name: Build with Gradle
+        run: ./gradlew build test
+
       - name: Set real YML
         run: |
           touch ./src/main/resources/application-real.yml
           echo "${{secrets.APPLICATION_REAL_YML}}" | base64 --decode > src/main/resources/application-real.yml
         shell: bash
-
-      # 1-3. Spring Boot Applications Build
-      - name: Build with Gradle
-        run: ./gradlew build test
 
       # 1-4. 빌드 결과 확인
       - name: Verify build
