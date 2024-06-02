@@ -25,13 +25,6 @@ jobs:
 #          chmod 600 ./src/main/resources/key/LawingKey.pem
 #        shell: bash
 #
-#      - name: Set PRIVATE_KEY
-#        run: |
-#          mkdir -p ./src/main/resources/key
-#          echo "${{secrets.SSH_PRIVATE_KEY}}" | base64 --decode > ./src/main/resources/key/LawingKey.pem
-#          chmod 600 ./src/main/resources/key/LawingKey.pem
-#        shell: bash
-#
 #      - name: Add SSH Host Key
 #        run: |
 #          mkdir -p ~/.ssh
@@ -94,10 +87,6 @@ jobs:
       - name: Verify build
         run: ls -l build/libs
 
-      # 1-6. Docker 이미지 빌드
-      - name: docker image build
-        run: docker build -t chaeniiiii/lawing:latest --platform linux/amd64 .
-
       # 1-7. DockerHub 로그인
       - name: docker login
         uses: docker/login-action@v2
@@ -105,29 +94,24 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER_NAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      # 1-6. Docker 이미지 빌드
+      - name: docker image build
+        run: docker build -t chaeniiiii/lawing:latest --platform linux/amd64 .
+
       # 1-8. Docker Hub 이미지 푸시
       - name: docker Hub push
         run: docker push chaeniiiii/lawing:latest
 
-    #2. 위 과정에서 푸시한 이미지를 ec2에서 pull 받아서 실행시키는 과정
-  run-docker-image-on-ec2 :
-    needs : build-docker-image
-    runs-on : self-hosted
-
-    steps :
-
-        # 2-1. 최신 이미지 pull
-        - name : docker pull
-          run : sudo docker pull chaeniiiii/lawing:latest
-
-        # 2-2. 기존 컨테이너를 중지
-        - name : docker stop container
-          run : sudo docker stop $(sudo docker ps -q) 2>/dev/null || true
-
-        # 2-3. 최신 이미지를 컨테이너화하여 실행
-        - name : docker run new container
-          run : sudo docker run --name github-actions-demo --rm -d -p 8080:8080 chaeniiiii/lawing:latest
-
-        #2-4. 미사용 이미지 정리
-        - name : delete old docker image
-          run : sudo docker system prune -f
+      # 1-9. Docker compose up
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: 15.164.148.174
+          username: ec2-user
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            sudo docker rm -f $(docker ps -qa)
+            sudo docker pull chaeniiiii/lawing
+            sudo docker pull chaeniiiii/lawing-nginx
+            docker-compose up -d
+            docker image prune -f
