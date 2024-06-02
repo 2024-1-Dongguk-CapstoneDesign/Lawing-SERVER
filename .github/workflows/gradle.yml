@@ -13,6 +13,19 @@ jobs:
       contents: read
 
     steps:
+      - name : Set up MySQL
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          host port: 3306
+          container port: 3306
+          character set server: 'utf8'
+          collation server: 'utf8_general_ci'
+          mysql version: '8.0.35'
+          mysql database: 'lawingdatabase'
+          mysql root password: ${{ secrets.DATABASE_PASSWORD }}
+          mysql user: 'ec2-user'
+          mysql password: ${{ secrets.DATABASE_PASSWORD }}
+
       - uses: actions/checkout@v3
 
       #1-1. Java 17 세팅
