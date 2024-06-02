@@ -13,6 +13,13 @@ jobs:
       contents: read
 
     steps:
+      - uses: mirromutth/mysql-action@v1.1
+        with:
+            host port: 3306
+            container port: 3306
+            mysql database: 'lawingdatabase'
+            mysql root password: ${{ secrets.DATABASE_PASSWORD }}
+
       - uses: actions/checkout@v3
 
       #1-1. Java 17 세팅
