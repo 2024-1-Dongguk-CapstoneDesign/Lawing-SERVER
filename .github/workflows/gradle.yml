@@ -15,29 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-  #1. CI 설계
-
-#      #1-1. SSH Tunneling 설정
-#      - name: Set PRIVATE_KEY
-#        run: |
-#          mkdir -p ./src/main/resources/key
-#          echo "${{secrets.SSH_PRIVATE_KEY}}" | base64 --decode > ./src/main/resources/key/LawingKey.pem
-#          chmod 600 ./src/main/resources/key/LawingKey.pem
-#        shell: bash
-#
-#      - name: Add SSH Host Key
-#        run: |
-#          mkdir -p ~/.ssh
-#          ssh-keyscan 15.164.148.174 >> ~/.ssh/known_hosts
-#        shell: bash
-#
-#      - name: Start SSH Tunnel
-#        run: |
-#          nohup ssh -v -i ./src/main/resources/key/LawingKey.pem -L 3307:"${{secrets.DB_END_POINT}}":3306 ec2-user@15.164.148.174 -N &
-#          sleep 10  # Wait for the tunnel to be established
-#        shell: bash
-
-      #1-2. Java 17 세팅
+      #1-1. Java 17 세팅
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -48,7 +26,7 @@ jobs:
         run: chmod +x ./gradlew
         shell: bash
 
-      #1-3. YML File Build
+      #1-2. YML File Build
       - name: Set jwt YML
         run: |
           touch ./src/main/resources/application-jwt.yml
@@ -61,32 +39,21 @@ jobs:
           echo "${{secrets.APPLICATION_CODEF_YML}}" | base64 --decode > src/main/resources/application-codef.yml
         shell: bash
 
+      # 1-3. Spring Boot Applications Build
+      - name: Build with Gradle
+        run: ./gradlew build test
+
       - name: Set real YML
         run: |
           touch ./src/main/resources/application-real.yml
           echo "${{secrets.APPLICATION_REAL_YML}}" | base64 --decode > src/main/resources/application-real.yml
         shell: bash
 
-      - name: Check if YML files exist
-        run: |
-          if [ -f ./src/main/resources/application-jwt.yml ] && \
-             [ -f ./src/main/resources/application-codef.yml ] && \
-             [ -f ./src/main/resources/application-real.yml ]; then
-            echo "YML files exist."
-          else
-            echo "One or more YML files are missing."
-            exit 1
-          fi
-
-      # 1-4. Spring Boot Applications Build
-      - name: Build with Gradle
-        run: ./gradlew build test
-
-      # 1-5. 빌드 결과 확인
+      # 1-4. 빌드 결과 확인
       - name: Verify build
         run: ls -l build/libs
 
-      # 1-7. DockerHub 로그인
+      # 1-5. DockerHub 로그인
       - name: docker login
         uses: docker/login-action@v2
         with:
@@ -97,11 +64,11 @@ jobs:
       - name: docker image build
         run: docker build -t chaeniiiii/lawing:latest --platform linux/amd64 .
 
-      # 1-8. Docker Hub 이미지 푸시
+      # 1-7. Docker Hub 이미지 푸시
       - name: docker Hub push
         run: docker push chaeniiiii/lawing:latest
 
-      # 1-9. Docker compose up
+      # 1-8. Docker compose up
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
         with:
