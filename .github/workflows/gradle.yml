@@ -45,6 +45,14 @@ jobs:
           echo "${{secrets.APPLICATION_REAL_YML}}" | base64 --decode > src/main/resources/application-real.yml
         shell: bash
 
+      - name: Setup MySQL
+        uses: samin/mysql-action@v1
+        with:
+            character set server: 'utf8'
+            mysql database: 'lawingdatabase'
+            mysql user: 'ec2-user'
+            mysql password: ${{ secrets.DATABASE_PASSWORD }}
+
       # 1-3. Spring Boot Applications Build
       - name: Build with Gradle
         run: ./gradlew build test
