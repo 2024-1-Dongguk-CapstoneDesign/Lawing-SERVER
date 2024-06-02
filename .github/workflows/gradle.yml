@@ -55,7 +55,7 @@ jobs:
 
       # 1-3. Spring Boot Applications Build
       - name: Build with Gradle
-        run: ./gradlew clean build
+        run: ./gradlew clean --stacktrace --info build
 
       # 1-4. 빌드 결과 확인
       - name: Verify build
