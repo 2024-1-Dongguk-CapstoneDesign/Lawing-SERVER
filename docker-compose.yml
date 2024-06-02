@@ -1,0 +1,17 @@
+version: '3'
+services:
+  web:
+    container_name: lawing
+    image: chaeniiiiii/lawing
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+
+  nginx:
+    container_name: nginx
+    image: chaeniiiiii/lawing-nginx
+    ports:
+      - 80:80
+    depends_on:
+      - lawing
