@@ -75,6 +75,7 @@ jobs:
           host: 15.164.148.174
           username: ec2-user
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port : 22
           script: |
             sudo docker rm -f $(docker ps -qa)
             sudo docker pull chaeniiiii/lawing
