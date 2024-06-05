@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface LicenseRepository extends JpaRepository<License,Long> {
-    Optional<License> findByLicenseNumber(String email);
+    Optional<License> findBySerialNumber(String serialNum);
 }

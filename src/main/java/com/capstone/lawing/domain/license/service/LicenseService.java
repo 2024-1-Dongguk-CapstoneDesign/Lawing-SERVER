@@ -75,11 +75,11 @@ public class LicenseService {
 
         log.info(jsonObj.toString());
 
-        if (resultObj.get("code").equals("CF-00000")) {
+        if (resultObj.getJSONObject("data").get("resAuthenticity").equals("1") ) {
 
             LicenseValidDTO licenseValidDTO = getLicenseInfo(jsonObj , loginMember);
 
-            return getlicenseValid(licenseValidDTO,loginMember);
+            return getLicenseValid(licenseValidDTO,loginMember);
 
         } else {
             throw new CustomException(ErrorCode.LICENSE_OCR_FAILED);
@@ -120,8 +120,6 @@ public class LicenseService {
 
         String licenseNo = dataObj.get("resLicenseNo").toString();
 
-        licenseRepository.findByLicenseNumber(licenseNo).ifPresent(license -> {throw new CustomException(ErrorCode.DRIVERS_LICENSE_EXISTS);});
-
         String birth = dataObj.getString("resUserIdentity").substring(0, 6);
         String name = dataObj.getString("resUserName");
         String gender = divideGender(dataObj.getString("resUserIdentity").substring(6,7));
@@ -158,7 +156,9 @@ public class LicenseService {
      * @param licenseValidDTO 운전 면허증 정보
      * @return ResponseDTO
      */
-    public ResponseDTO getlicenseValid(LicenseValidDTO licenseValidDTO , Member loginMember) {
+    public ResponseDTO getLicenseValid(LicenseValidDTO licenseValidDTO , Member loginMember) {
+
+        licenseRepository.findBySerialNumber(licenseValidDTO.getSerialNo()).ifPresent(license -> {throw new CustomException(ErrorCode.DRIVERS_LICENSE_EXISTS);});
 
         HashMap<String, String> body = new HashMap<>();
         body.put("organization", licenseValidDTO.getOrganization());
@@ -187,7 +187,7 @@ public class LicenseService {
 
         log.info(jsonObj.toString());
 
-        if (data.get("resAuthenticity").equals("0")) {
+        if (data.get("resAuthenticity").equals("0") || data.get("resAuthenticity").equals("2")) {
             throw new CustomException(ErrorCode.LICENSE_VALIDATION_FAILED);
         }
 

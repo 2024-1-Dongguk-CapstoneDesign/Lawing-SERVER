@@ -43,7 +43,7 @@ public class LicenseController {
     @PostMapping("/license/valid")
     public ResponseDTO licenseValid(@RequestBody LicenseValidDTO licenseValidDTO , @AuthenticationPrincipal MemberAdapter memberAdapter){
 
-        return licenseService.getlicenseValid(licenseValidDTO , memberAdapter.getMember());
+        return licenseService.getLicenseValid(licenseValidDTO , memberAdapter.getMember());
 
     }
 
