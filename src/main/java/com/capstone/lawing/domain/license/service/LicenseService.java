@@ -75,7 +75,7 @@ public class LicenseService {
 
         log.info(jsonObj.toString());
 
-        if (resultObj.getJSONObject("data").get("resAuthenticity").equals("1") ) {
+        if (resultObj.get("code").equals("CF-00000") ) {
 
             LicenseValidDTO licenseValidDTO = getLicenseInfo(jsonObj , loginMember);
 
@@ -130,7 +130,7 @@ public class LicenseService {
             throw new CustomException(ErrorCode.LICENSE_MEMBER_INFO_NOT_CORRECT);
         }
 
-        return new LicenseValidDTO("0001", birth, licenseNo.substring(0, 2), licenseNo.substring(2, 4), licenseNo.substring(4, 10), licenseNo.substring(10), dataObj.get("resSerialNum").toString(), name, "");
+        return new LicenseValidDTO(birth, licenseNo.substring(0, 2), licenseNo.substring(2, 4), licenseNo.substring(4, 10), licenseNo.substring(10), dataObj.get("resSerialNum").toString(), name);
 
     }
 
@@ -161,7 +161,7 @@ public class LicenseService {
         licenseRepository.findBySerialNumber(licenseValidDTO.getSerialNo()).ifPresent(license -> {throw new CustomException(ErrorCode.DRIVERS_LICENSE_EXISTS);});
 
         HashMap<String, String> body = new HashMap<>();
-        body.put("organization", licenseValidDTO.getOrganization());
+        body.put("organization", "0001");
         body.put("birthDate", licenseValidDTO.getBirthDate());
         body.put("licenseNo01", licenseValidDTO.getLicenseNo01());
         body.put("licenseNo02", licenseValidDTO.getLicenseNo02());
@@ -169,9 +169,7 @@ public class LicenseService {
         body.put("licenseNo04", licenseValidDTO.getLicenseNo04());
         body.put("serialNo", licenseValidDTO.getSerialNo());
         body.put("userName", licenseValidDTO.getUserName());
-        body.put("licenseNumber", licenseValidDTO.getLicenseNumber());
 
-        log.info(licenseValidDTO.getLicenseNumber());
 
         WebClient webClient = WebClient.builder()
                 .baseUrl("https://development.codef.io/v1/kr")
