@@ -26,7 +26,7 @@ public class SecurityConfig {
         return (web) -> web.ignoring().requestMatchers(
                 "/v3/api-docs/**",
                 "/swagger-ui/**",
-                "lawing/swagger-ui/**"
+                "/lawing/swagger-ui/**"
         );
     }
 
