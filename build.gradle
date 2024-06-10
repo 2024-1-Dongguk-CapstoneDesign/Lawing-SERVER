@@ -26,6 +26,9 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }\
+
 }
 
 dependencies {
@@ -89,4 +92,9 @@ sourceSets {
 // gradle clean 시에 QClass 디렉토리 삭제
 clean {
 	delete file(generated)
+}
+
+//SNAPSHOT 생성 x
+jar {
+	enabled = false
 }

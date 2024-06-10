@@ -1,11 +1,11 @@
 package com.capstone.lawing.domain.member.component;
 
 import com.capstone.lawing.domain.member.Member;
-import com.capstone.lawing.domain.member.Repository.MemberRepository;
+import com.capstone.lawing.domain.member.repository.MemberRepository;
 import com.capstone.lawing.domain.member.dto.request.RequestMemberInfoDTO;
 import com.capstone.lawing.domain.member.dto.request.RequestTokenInfoDTO;
 import com.capstone.lawing.domain.memberToken.MemberToken;
-import com.capstone.lawing.domain.memberToken.Repository.MemberTokenRepository;
+import com.capstone.lawing.domain.memberToken.repository.MemberTokenRepository;
 import com.capstone.lawing.domain.memberToken.dto.response.ResponseMemberTokenDTO;
 import com.capstone.lawing.domain.memberToken.dto.response.ResponseTokenDTO;
 import com.capstone.lawing.global.auth.service.JwtService;

@@ -1,4 +1,4 @@
-package com.capstone.lawing.domain.memberToken.Repository;
+package com.capstone.lawing.domain.memberToken.repository;
 
 import com.capstone.lawing.domain.memberToken.MemberToken;
 import org.springframework.data.jpa.repository.JpaRepository;

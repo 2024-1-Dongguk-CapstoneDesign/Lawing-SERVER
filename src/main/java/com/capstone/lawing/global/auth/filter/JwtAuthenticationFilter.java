@@ -1,6 +1,5 @@
 package com.capstone.lawing.global.auth.filter;
 
-import com.capstone.lawing.domain.memberToken.Repository.MemberTokenRepository;
 import com.capstone.lawing.domain.memberToken.TokenStatus;
 import com.capstone.lawing.global.auth.service.JwtService;
 import com.capstone.lawing.global.dto.Response.ResponseDTO;
@@ -27,6 +26,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private static final String LOGIN_URL = "/member/social/login";
     private static final String SWAGGER_UI_URL = "/lawing/swagger";
+
     private static final String CODEF_TOKEN_URL = "/license/token";
     private static final String TOKEN_REISSUE_URL = "/memberToken/reissue";
 

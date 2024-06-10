@@ -8,9 +8,16 @@ ARG JAR_FILE=build/libs/*.jar
 # jar 파일 복제
 COPY ${JAR_FILE} app.jar
 
-# 인자 설정 부분과 jar 파일 복제 부분 합쳐서 진행해도 무방
-#COPY build/libs/*.jar app.jar
-COPY ${JAR_FILE} app.jar
+COPY src/main/resources/application.yml .
+COPY src/main/resources/application-real.yml .
+COPY src/main/resources/application-jwt.yml .
+COPY src/main/resources/application-codef.yml .
+
+# Set environment variables
+ENV SPRING_PROFILES_ACTIVE=real,jwt,codef
+
+# Expose the port your application runs on
+EXPOSE 8080
 
 # 실행 명령어
-ENTRYPOINT ["java", "-jar","-Dspring.profiles.active=real", "/app.jar"]
+ENTRYPOINT ["java", "-jar","-Duser.timezone=Asia/Seoul", "/app.jar"]

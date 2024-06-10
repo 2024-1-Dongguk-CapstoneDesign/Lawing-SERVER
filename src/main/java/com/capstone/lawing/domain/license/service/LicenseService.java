@@ -1,7 +1,12 @@
 package com.capstone.lawing.domain.license.service;
 
+import com.capstone.lawing.domain.license.License;
 import com.capstone.lawing.domain.license.dto.LicenseValidDTO;
+import com.capstone.lawing.domain.license.dto.request.RequestLicenseInfoDTO;
 import com.capstone.lawing.domain.license.dto.response.CodefTokenResponseDto;
+import com.capstone.lawing.domain.license.repository.LicenseRepository;
+import com.capstone.lawing.domain.member.Member;
+import com.capstone.lawing.domain.member.repository.MemberRepository;
 import com.capstone.lawing.global.dto.Response.ResponseDTO;
 import com.capstone.lawing.global.enumType.ErrorCode;
 import com.capstone.lawing.global.exception.CustomException;
@@ -39,11 +44,13 @@ public class LicenseService {
     @Value("${license.token}")
     String licenseToken;
 
+    private final MemberRepository memberRepository;
+    private final LicenseRepository licenseRepository;
     /**
      * 운전면허증 OCR
      * @param multipartFile 면허증 파일
      */
-    public ResponseDTO getLicenseOCR(MultipartFile multipartFile) throws Exception {
+    public ResponseDTO getLicenseOCR(MultipartFile multipartFile , Member loginMember) throws Exception {
 
         // 이미지 데이터를 Base64로 인코딩
         String base64Encoded = getBase64Image(multipartFile);
@@ -68,9 +75,12 @@ public class LicenseService {
 
         log.info(jsonObj.toString());
 
-        if (resultObj.get("code").equals("CF-00000")) {
-            LicenseValidDTO licenseValidDTO = getLicenseInfo(jsonObj);
-            return getlicenseValid(licenseValidDTO);
+        if (resultObj.get("code").equals("CF-00000") ) {
+
+            LicenseValidDTO licenseValidDTO = getLicenseInfo(jsonObj , loginMember);
+
+            return getLicenseValid(licenseValidDTO,loginMember);
+
         } else {
             throw new CustomException(ErrorCode.LICENSE_OCR_FAILED);
         }
@@ -104,17 +114,41 @@ public class LicenseService {
      * JSONObject OCR API Response
      * @return LicenseValidDTO
      */
-    private LicenseValidDTO getLicenseInfo(JSONObject jsonObj) {
-
-        System.out.println(jsonObj);
+    private LicenseValidDTO getLicenseInfo(JSONObject jsonObj, Member loginMember) {
 
         JSONObject dataObj = jsonObj.getJSONObject("data");
 
-        String birth = dataObj.get("resUserIdentity").toString().substring(0, 6);
         String licenseNo = dataObj.get("resLicenseNo").toString();
 
-        return new LicenseValidDTO("0001", birth, licenseNo.substring(0, 2), licenseNo.substring(2, 4), licenseNo.substring(4, 10), licenseNo.substring(10), dataObj.get("resSerialNum").toString(), dataObj.get("resUserName").toString(), "");
+        String birth = dataObj.getString("resUserIdentity").substring(0, 6);
+        String name = dataObj.getString("resUserName");
+        String gender = divideGender(dataObj.getString("resUserIdentity").substring(6,7));
 
+        Member licenseMember = memberRepository.findByBirthAndNameAndGender(birth,name,gender).orElseThrow(() -> new CustomException(ErrorCode.LICENSE_MEMBER_INFO_NOT_CORRECT));
+
+        if(!loginMember.getId().equals(licenseMember.getId())){
+            throw new CustomException(ErrorCode.LICENSE_MEMBER_INFO_NOT_CORRECT);
+        }
+
+        return new LicenseValidDTO(birth, licenseNo.substring(0, 2), licenseNo.substring(2, 4), licenseNo.substring(4, 10), licenseNo.substring(10), dataObj.get("resSerialNum").toString(), name);
+
+    }
+
+
+    /**
+     * 성별 확정
+     * @param genderChar
+     * @return
+     */
+    public String divideGender(String genderChar) {
+
+        String gender = switch (genderChar) {
+            case "1", "3" -> "male";
+            case "2", "4" -> "female";
+            default -> throw new CustomException(ErrorCode.WRONG_LICENSE_GENDER);
+        };
+
+        return gender;
     }
 
     /**
@@ -122,10 +156,12 @@ public class LicenseService {
      * @param licenseValidDTO 운전 면허증 정보
      * @return ResponseDTO
      */
-    public ResponseDTO getlicenseValid(LicenseValidDTO licenseValidDTO) {
+    public ResponseDTO getLicenseValid(LicenseValidDTO licenseValidDTO , Member loginMember) {
+
+        licenseRepository.findBySerialNumber(licenseValidDTO.getSerialNo()).ifPresent(license -> {throw new CustomException(ErrorCode.DRIVERS_LICENSE_EXISTS);});
 
         HashMap<String, String> body = new HashMap<>();
-        body.put("organization", licenseValidDTO.getOrganization());
+        body.put("organization", "0001");
         body.put("birthDate", licenseValidDTO.getBirthDate());
         body.put("licenseNo01", licenseValidDTO.getLicenseNo01());
         body.put("licenseNo02", licenseValidDTO.getLicenseNo02());
@@ -133,9 +169,7 @@ public class LicenseService {
         body.put("licenseNo04", licenseValidDTO.getLicenseNo04());
         body.put("serialNo", licenseValidDTO.getSerialNo());
         body.put("userName", licenseValidDTO.getUserName());
-        body.put("licenseNumber", licenseValidDTO.getLicenseNumber());
 
-        log.info(licenseValidDTO.getLicenseNumber());
 
         WebClient webClient = WebClient.builder()
                 .baseUrl("https://development.codef.io/v1/kr")
@@ -151,9 +185,11 @@ public class LicenseService {
 
         log.info(jsonObj.toString());
 
-        if (data.get("resAuthenticity").equals("0")) {
+        if (data.get("resAuthenticity").equals("0") || data.get("resAuthenticity").equals("2")) {
             throw new CustomException(ErrorCode.LICENSE_VALIDATION_FAILED);
         }
+
+        licenseRepository.save(new RequestLicenseInfoDTO().toEntity(loginMember,licenseValidDTO));
 
         return new ResponseDTO(200,HttpStatus.OK.name(),"SUCCESS","운전면허증 유효성 검증에 성공하였습니다.");
     }

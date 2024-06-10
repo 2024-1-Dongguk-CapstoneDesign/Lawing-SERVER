@@ -2,6 +2,7 @@ package com.capstone.lawing.domain.member.controller;
 
 import com.capstone.lawing.domain.member.dto.request.RequestLoginTypeDTO;
 import com.capstone.lawing.domain.member.service.MemberService;
+import com.capstone.lawing.domain.memberToken.dto.response.ResponseMemberTokenDTO;
 import com.capstone.lawing.global.dto.Response.ResponseDTO;
 import com.capstone.lawing.global.enumType.ErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +26,7 @@ public class MemberController {
      */
     @Operation(summary = "카카오 로그인" , description = "사용자의 카카오 계정을 통해 로그인을 시도합니다.")
     @PostMapping("/social/login")
-    public ResponseEntity<ResponseDTO> socialLogin(@RequestBody RequestLoginTypeDTO requestLoginTypeDTO, @RequestHeader("kakaoAccessToken") String kakaoAccessToken ){
+    public ResponseMemberTokenDTO socialLogin(@RequestBody RequestLoginTypeDTO requestLoginTypeDTO, @RequestHeader("kakaoAccessToken") String kakaoAccessToken ){
 
         return memberService.doSocialLogin(requestLoginTypeDTO.getSocialType(), kakaoAccessToken);
 

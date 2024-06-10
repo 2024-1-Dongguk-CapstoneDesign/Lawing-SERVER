@@ -24,8 +24,9 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring().requestMatchers(
-                "/v3/api-docs",
-                "/swagger-ui/**"
+                "/v3/api-docs/**",
+                "/swagger-ui/**",
+                "/lawing/swagger-ui/**"
         );
     }
 
@@ -39,7 +40,7 @@ public class SecurityConfig {
             .cors(AbstractHttpConfigurer::disable)
 
             .authorizeHttpRequests((authorize) -> authorize
-                    .requestMatchers("/member/social/login", "/lawing/swagger", "/license/token", "/memberToken/reissue").permitAll()
+                    .requestMatchers("/member/social/login", "/lawing/swagger/**", "/lawing/swagger-ui/index.html" ,"/license/token", "/memberToken/reissue").permitAll()
                     .anyRequest().authenticated())
 
             .sessionManagement(session -> session

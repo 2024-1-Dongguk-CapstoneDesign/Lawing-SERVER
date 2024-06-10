@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties
 public class LicenseValidDTO {
 
-    private String organization;
     private String birthDate;
     private String licenseNo01;
     private String licenseNo02;
@@ -17,10 +16,9 @@ public class LicenseValidDTO {
     private String licenseNo04;
     private String serialNo;
     private String userName;
-    private String licenseNumber;
 
-    public LicenseValidDTO(String organization, String birthDate, String licenseNo01, String licenseNo02, String licenseNo03, String licenseNo04, String serialNo, String userName, String licenseNumber){
-        this.organization = organization;
+    public LicenseValidDTO(String birthDate, String licenseNo01, String licenseNo02, String licenseNo03, String licenseNo04, String serialNo, String userName){
+
         this.birthDate = birthDate;
         this.licenseNo01 = licenseNo01;
         this.licenseNo02 = licenseNo02;
@@ -28,7 +26,7 @@ public class LicenseValidDTO {
         this.licenseNo04 = licenseNo04;
         this.serialNo = serialNo;
         this.userName = userName;
-        this.licenseNumber = licenseNumber;
+
     }
 
 }
