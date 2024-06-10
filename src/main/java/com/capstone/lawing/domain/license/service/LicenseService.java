@@ -52,7 +52,7 @@ public class LicenseService {
      */
     public ResponseDTO getLicenseOCR(MultipartFile multipartFile , Member loginMember) throws Exception {
 
-        // 이미지 데이터를 Base64로 인코딩
+        // 이미지 데이터를 Base64 인코딩
         String base64Encoded = getBase64Image(multipartFile);
 
         HashMap<String, String> body = new HashMap<>();
