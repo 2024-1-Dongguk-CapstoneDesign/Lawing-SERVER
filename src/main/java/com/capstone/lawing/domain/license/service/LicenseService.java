@@ -52,6 +52,8 @@ public class LicenseService {
      */
     public ResponseDTO getLicenseOCR(MultipartFile multipartFile , Member loginMember) throws Exception {
 
+        log.info("=====================운전면허증 OCR=====================");
+
         // 이미지 데이터를 Base64 인코딩
         String base64Encoded = getBase64Image(multipartFile);
 
@@ -93,6 +95,8 @@ public class LicenseService {
      */
     private String getBase64Image(MultipartFile multipartFile) throws IOException {
 
+        log.info("====================이미지 파일 Base64 인코딩=====================");
+
         File license = File.createTempFile("License", null);
 
         try (FileOutputStream fos = new FileOutputStream(license)) {
@@ -116,6 +120,8 @@ public class LicenseService {
      */
     private LicenseValidDTO getLicenseInfo(JSONObject jsonObj, Member loginMember) {
 
+        log.info("====================OCR로 추출된 운전면허증 정보에서 필요한 정보 추출=====================");
+
         JSONObject dataObj = jsonObj.getJSONObject("data");
 
         String licenseNo = dataObj.get("resLicenseNo").toString();
@@ -124,7 +130,14 @@ public class LicenseService {
         String name = dataObj.getString("resUserName");
         String gender = divideGender(dataObj.getString("resUserIdentity").substring(6,7));
 
+        log.info(birth);
+        log.info(name);
+        log.info(gender);
+
         Member licenseMember = memberRepository.findByBirthAndNameAndGender(birth,name,gender).orElseThrow(() -> new CustomException(ErrorCode.LICENSE_MEMBER_INFO_NOT_CORRECT));
+
+        log.info(loginMember.getId().toString());
+        log.info(licenseMember.getId().toString());
 
         if(!loginMember.getId().equals(licenseMember.getId())){
             throw new CustomException(ErrorCode.LICENSE_MEMBER_INFO_NOT_CORRECT);
@@ -142,6 +155,8 @@ public class LicenseService {
      */
     public String divideGender(String genderChar) {
 
+        log.info("====================성별 확정=====================");
+
         String gender = switch (genderChar) {
             case "1", "3" -> "male";
             case "2", "4" -> "female";
@@ -157,6 +172,8 @@ public class LicenseService {
      * @return ResponseDTO
      */
     public ResponseDTO getLicenseValid(LicenseValidDTO licenseValidDTO , Member loginMember) {
+
+        log.info("====================운전면허증 유효성 검증 로직=====================");
 
         licenseRepository.findBySerialNumber(licenseValidDTO.getSerialNo()).ifPresent(license -> {throw new CustomException(ErrorCode.DRIVERS_LICENSE_EXISTS);});
 
